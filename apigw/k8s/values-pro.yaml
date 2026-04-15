@@ -37,7 +37,3 @@ config:
     - "GET"
     - "POST"
     backend_dns: "http://back-service.pro-drivethru-agent-back.svc.cluster.local:80"
-  - pattern: "/api/orders"
-    method:
-    - "GET"
-    backend_dns: "http://back-service.pro-drivethru-agent-back.svc.cluster.local:80"
