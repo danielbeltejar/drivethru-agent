@@ -1,0 +1,43 @@
+replicaCount: 1
+namespace: pro-drivethru-agent-front
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+image:
+  pullPolicy: Always
+extraEnv:
+- name: "TZ"
+  value: "UTC"
+extraEnvFrom: []
+resources:
+  requests:
+    memory: "16Mi"
+  limits:
+    cpu: 100m
+    memory: "32Mi"
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-set-header: X-Real-IP $remote_addr
+    nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
+  class: "nginx-online"
+  host: "drivethru.danielbeltejar.es"
+  tls: true
+config:
+  routes:
+  - pattern: "/api/menu"
+    method:
+    - "GET"
+    backend_dns: "http://back-service.pro-drivethru-agent-back.svc.cluster.local:80"
+  - pattern: "/api/chat"
+    method:
+    - "GET"
+    - "POST"
+    backend_dns: "http://back-service.pro-drivethru-agent-back.svc.cluster.local:80"
+  - pattern: "/api/orders"
+    method:
+    - "GET"
+    backend_dns: "http://back-service.pro-drivethru-agent-back.svc.cluster.local:80"

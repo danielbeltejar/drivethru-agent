@@ -1,0 +1,53 @@
+{
+  "restaurant": "COSMO BURGER",
+  "taxRate": 0.10,
+  "categories": [
+    {
+      "name": "Burgers",
+      "icon": "burger",
+      "items": [
+        {"id": 1, "name": "La Atómica", "description": "Doble carne, queso fundido, bacon crujiente, salsa especial", "price": 9.99},
+        {"id": 2, "name": "El Volcán", "description": "Carne premium, jalapeños, salsa picante volcánica, cheddar", "price": 10.49},
+        {"id": 3, "name": "Doble Impacto", "description": "Triple carne, triple queso, cebolla caramelizada", "price": 12.99},
+        {"id": 4, "name": "La Clásica", "description": "Carne a la parrilla, lechuga, tomate, cebolla, ketchup", "price": 7.99},
+        {"id": 5, "name": "Veggie Nova", "description": "Hamburguesa vegetal, aguacate, rúcula, salsa tahini", "price": 8.99},
+        {"id": 6, "name": "Pollo Estelar", "description": "Pechuga empanada crujiente, coleslaw, salsa ranch", "price": 8.49}
+      ]
+    },
+    {
+      "name": "Combos",
+      "icon": "combo",
+      "items": [
+        {"id": 10, "name": "Combo Atómica", "description": "La Atómica + Patatas Galácticas + Refresco", "price": 13.99},
+        {"id": 11, "name": "Combo Volcán", "description": "El Volcán + Aros de Saturno + Refresco", "price": 14.49},
+        {"id": 12, "name": "Combo Familiar", "description": "4 Clásicas + 2 Patatas Galácticas + 4 Refrescos", "price": 34.99}
+      ]
+    },
+    {
+      "name": "Acompañamientos",
+      "icon": "fries",
+      "items": [
+        {"id": 20, "name": "Patatas Galácticas", "description": "Patatas fritas crujientes con sal cósmica", "price": 3.49},
+        {"id": 21, "name": "Nuggets Estelares", "description": "6 piezas de pollo crujiente con salsa", "price": 4.99},
+        {"id": 22, "name": "Aros de Saturno", "description": "Aros de cebolla rebozados y crujientes", "price": 3.99}
+      ]
+    },
+    {
+      "name": "Bebidas",
+      "icon": "drink",
+      "items": [
+        {"id": 30, "name": "Refresco", "description": "Cola, Naranja o Limón", "price": 2.49},
+        {"id": 31, "name": "Batido Cósmico", "description": "Chocolate, Vainilla o Fresa", "price": 4.49},
+        {"id": 32, "name": "Agua", "description": "Agua mineral 500ml", "price": 1.49}
+      ]
+    },
+    {
+      "name": "Postres",
+      "icon": "dessert",
+      "items": [
+        {"id": 40, "name": "Helado Orbital", "description": "Helado suave con topping a elegir", "price": 2.99},
+        {"id": 41, "name": "Tarta Meteórica", "description": "Brownie caliente con helado y sirope", "price": 4.99}
+      ]
+    }
+  ]
+}

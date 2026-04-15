@@ -1,0 +1,18 @@
+namespace: pre-drivethru-agent-back
+replicaCount: 1
+registry: harbor.server.local/danielbeltejar/drivethru-agent
+image:
+  pullPolicy: IfNotPresent
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+extraEnv:
+- name: "TZ"
+  value: "UTC"
+extraEnvFrom: []
+resources:
+  requests:
+    memory: "32Mi"
+  limits:
+    memory: "128Mi"
