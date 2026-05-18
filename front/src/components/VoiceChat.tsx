@@ -24,7 +24,7 @@ export default function VoiceChat({ clientId, onOrderUpdate, onOrderClosed, orde
   const greetingSentRef = useRef(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const speakingRef = useRef(false);
-  const { isListening, transcript, startListening, stopListening, clearTranscript, isSupported } = useSpeechRecognition();
+  const { isListening, isProcessing, transcript, startListening, stopListening, clearTranscript, isSupported } = useSpeechRecognition();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -116,14 +116,14 @@ export default function VoiceChat({ clientId, onOrderUpdate, onOrderClosed, orde
     }
   };
 
-  // Handle completed speech transcript — fire once then clear
+  // Handle completed speech transcript — fire once when transcription finishes
   useEffect(() => {
-    if (transcript && !isListening && !sendingRef.current) {
+    if (transcript && !isProcessing && !isListening && !sendingRef.current) {
       const text = transcript;
       clearTranscript();
       sendMessage(text);
     }
-  }, [transcript, isListening]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [transcript, isProcessing, isListening]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Auto-open and send initial greeting (once), then auto-start mic
   useEffect(() => {
@@ -172,6 +172,7 @@ export default function VoiceChat({ clientId, onOrderUpdate, onOrderClosed, orde
   };
 
   const handleMicClick = () => {
+    if (isProcessing) return;
     if (isListening) {
       stopListening();
       setVoiceMode(false);
@@ -251,15 +252,17 @@ export default function VoiceChat({ clientId, onOrderUpdate, onOrderClosed, orde
               <button
                 type="button"
                 onClick={handleMicClick}
-                disabled={orderClosed || isBanned || !isSupported || isLoading || isSpeaking}
+                disabled={orderClosed || isBanned || !isSupported || isLoading || isSpeaking || isProcessing}
                 className={`shrink-0 w-11 h-11 rounded-full flex items-center justify-center transition-all ${
                   isListening
                     ? 'bg-red-500 animate-mic-pulse text-white'
-                    : voiceMode
-                      ? 'bg-orange-500 text-white ring-2 ring-orange-400/50'
-                      : 'bg-orange-600/80 hover:bg-orange-500 text-white'
-                } ${(orderClosed || isBanned || !isSupported || isLoading || isSpeaking) ? 'opacity-30 cursor-not-allowed' : ''}`}
-                title={isSupported ? (isListening ? 'Parar' : 'Hablar') : 'Navegador no compatible con voz'}
+                    : isProcessing
+                      ? 'bg-amber-500 text-white'
+                      : voiceMode
+                        ? 'bg-orange-500 text-white ring-2 ring-orange-400/50'
+                        : 'bg-orange-600/80 hover:bg-orange-500 text-white'
+                } ${(orderClosed || isBanned || !isSupported || isLoading || isSpeaking || isProcessing) ? 'opacity-30 cursor-not-allowed' : ''}`}
+                title={isSupported ? (isListening ? 'Parar' : isProcessing ? 'Procesando...' : 'Hablar') : 'Navegador no compatible con voz'}
               >
                 {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
               </button>
@@ -293,6 +296,7 @@ export default function VoiceChat({ clientId, onOrderUpdate, onOrderClosed, orde
                   orderClosed ? 'Pedido completado'
                   : isBanned ? 'Sesión terminada'
                   : isSpeaking ? 'Alex está hablando...'
+                  : isProcessing ? 'Procesando...'
                   : isListening ? 'Escuchando...'
                   : voiceMode ? 'Modo voz activo — esperando respuesta...'
                   : 'Escribe tu pedido...'
@@ -311,14 +315,19 @@ export default function VoiceChat({ clientId, onOrderUpdate, onOrderClosed, orde
               </button>
             </form>
 
-            {(isListening || isSpeaking) && (
+            {(isListening || isProcessing || isSpeaking) && (
               <div className="mt-2 text-center">
                 {isSpeaking && (
                   <span className="text-orange-400 text-xs font-display tracking-wider animate-pulse">
                     ● ALEX HABLANDO...
                   </span>
                 )}
-                {isListening && (
+                {isProcessing && (
+                  <span className="text-amber-400 text-xs font-display tracking-wider animate-pulse">
+                    ● PROCESANDO...
+                  </span>
+                )}
+                {isListening && !isProcessing && (
                   <span className="text-red-400 text-xs font-display tracking-wider animate-pulse">
                     ● ESCUCHANDO...
                   </span>

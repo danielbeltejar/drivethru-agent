@@ -15,11 +15,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers.MenuRouter import menu_router
 from routers.OrderRouter import order_router
 from routers.HealthRouter import health_router
+from routers.TranscribeRouter import transcribe_router
 
 app = FastAPI(title="COSMO BURGER API")
 app.include_router(menu_router)
 app.include_router(order_router)
 app.include_router(health_router)
+app.include_router(transcribe_router)
 
 # noinspection PyTypeChecker
 app.add_middleware(
