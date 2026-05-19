@@ -34,3 +34,7 @@ config:
     - "GET"
     - "POST"
     backend_dns: "http://back-service.pre-drivethru-agent-back.svc.cluster.local:80"
+  - pattern: "/api/transcribe"
+    method:
+    - "POST"
+    backend_dns: "http://back-service.pre-drivethru-agent-back.svc.cluster.local:80"
