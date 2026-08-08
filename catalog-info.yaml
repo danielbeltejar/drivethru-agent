@@ -1,0 +1,85 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: drivethru-agent
+  description: Drive-thru assistant application
+  annotations:
+    github.com/project-slug: danielbeltejar/drivethru-agent
+    backstage.io/source-location: url:https://github.com/danielbeltejar/drivethru-agent
+    delicias.dev/managed-by: backstage
+    delicias.dev/workload-kind: application
+    delicias.dev/application-contract: platform.delicias/v1alpha2
+    delicias.dev/delivery-chart: common-app@1.1.0
+    delicias.dev/runtime-components: apigw
+spec:
+  lifecycle: production
+  owner: group:platform
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: drivethru-agent-front
+  description: Drive-thru assistant frontend
+  annotations:
+    github.com/project-slug: danielbeltejar/drivethru-agent
+    backstage.io/source-location: url:https://github.com/danielbeltejar/drivethru-agent
+    tekton.dev/pipeline: universal-monorepo
+    backstage.io/kubernetes-id: front
+    backstage.io/kubernetes-namespace: pre-drivethru-agent-front
+    delicias.dev/managed-by: backstage
+    delicias.dev/workload-kind: application
+    delicias.dev/application-contract: platform.delicias/v1alpha2
+    delicias.dev/deploy-kind: service
+    delicias.dev/delivery-chart: common-app@1.1.0
+  tags: [gitops, kubernetes, monorepo, common-app]
+spec:
+  type: website
+  lifecycle: production
+  owner: group:platform
+  system: drivethru-agent
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: drivethru-agent-back
+  description: Drive-thru assistant API
+  annotations:
+    github.com/project-slug: danielbeltejar/drivethru-agent
+    backstage.io/source-location: url:https://github.com/danielbeltejar/drivethru-agent
+    tekton.dev/pipeline: universal-monorepo
+    backstage.io/kubernetes-id: back
+    backstage.io/kubernetes-namespace: pre-drivethru-agent-back
+    delicias.dev/managed-by: backstage
+    delicias.dev/workload-kind: application
+    delicias.dev/application-contract: platform.delicias/v1alpha2
+    delicias.dev/deploy-kind: service
+    delicias.dev/delivery-chart: common-app@1.1.0
+  tags: [gitops, kubernetes, monorepo, common-app]
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: drivethru-agent
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: drivethru-agent-apigw
+  description: Drive-thru assistant API gateway
+  annotations:
+    github.com/project-slug: danielbeltejar/drivethru-agent
+    backstage.io/source-location: url:https://github.com/danielbeltejar/drivethru-agent
+    backstage.io/kubernetes-id: apigw
+    backstage.io/kubernetes-namespace: pre-drivethru-agent-front
+    delicias.dev/managed-by: backstage
+    delicias.dev/workload-kind: application
+    delicias.dev/application-contract: platform.delicias/v1alpha2
+    delicias.dev/deploy-kind: service
+    delicias.dev/delivery-chart: common-app@1.1.0
+    delicias.dev/runtime-component: apigw
+  tags: [gitops, kubernetes, common-app, runtime]
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: drivethru-agent
